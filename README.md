@@ -1,4 +1,4 @@
-# Biến Box Linux Thành Thiết Bị Chặn Quảng Cáo Trên Wi-Fi
+# Block ad modun linux
 
 ## **Yêu cầu hệ thống**
 - Box chạy Linux (Debian/Ubuntu là lý tưởng vì Pi-hole hỗ trợ tốt).
