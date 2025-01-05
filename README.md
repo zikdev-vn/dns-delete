@@ -58,3 +58,32 @@ Nếu bạn muốn Pi-hole quản lý DHCP thay cho router:
 - **Tùy chỉnh danh sách trắng/đen**: Nếu một trang bị chặn nhầm, bạn có thể thêm nó vào danh sách trắng.
 
 ---
+# xoay proxy 
+
+```bash
+//tao 500 proxy cua vieltel va vinaphon can pai mua goi da phien cua nha mang
+:local vlanPrefix "macvlan"
+
+:for iii from=1 to=500 do={
+    :do {
+        /interface macvlan add interface=ether1 name=($vlanPrefix . $iii)
+    } on-error={
+        :log warning "Failed to create macvlan for $vlanPrefix.$iii"
+    }
+}
+// xoay proxy
+:while (true) do={
+    :if ($proxyIndex >= [:len $proxyList]) do={
+        :set $proxyIndex 0
+    }
+    :local currentProxy ($proxyList->[$proxyIndex])
+
+    # Áp dụng proxy hiện tại
+    /ip proxy set address=($currentProxy->"address") port=($currentProxy->"port")
+    :log info "Switched to proxy: $currentProxy"
+
+    # Tăng index và chờ 5 phút
+    :set $proxyIndex ($proxyIndex + 1)
+    :delay 300s
+}
+```
